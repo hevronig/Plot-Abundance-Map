@@ -17,6 +17,8 @@ abundance <- abundance %>% filter(IslandID != "CAR")
 gg <- ggplot()
 
 wrld <- map_data("world")
+state.list <- c("hawaii", "samoa")
+map("state", state.list)
 
 xlims = c(-190, -135)
 ylims = c(-30, 30)
@@ -42,9 +44,8 @@ p <-p + geom_polygon( data=wrld, aes(x=long, y=lat, group = group), colour="#4d4
 #Plots negative stations
 neg_map <- p + geom_point( data=abundance %>% filter(SumRelativeAbundance == 0),
                            shape = 21,
-#                           colour = "#a7a7a7",
-#                           fill = "#a7a7a7",
-                           colour="black",fill="black",
+                           colour="black",
+                           fill="black",
                            size = 0.5,
                            aes(x=Longitude, y=Latitude)
 )
@@ -54,7 +55,8 @@ neg_map <- p + geom_point( data=abundance %>% filter(SumRelativeAbundance == 0),
 p <-  neg_map + geom_point( data=abundance %>%  
                      filter(SumRelativeAbundance > 0),
                      shape=21, 
-                     colour="#b21616", fill="#e84646",
+                     colour="#b21616", 
+                     fill="#e84646",
                      aes(x=Longitude, y=Latitude, size=SumRelativeAbundance)
                      )
 # create facetted plot by Gene
@@ -65,4 +67,4 @@ p <- p + coord_fixed(xlim = xlims, ylim = ylims)
 p
 
 ## Save figure
-ggsave(file="./results/abundance_map.svg", plot=p, width=14, height=8)
+ggsave(file="./results/abundance_map.png", plot=p, width=14, height=8)
